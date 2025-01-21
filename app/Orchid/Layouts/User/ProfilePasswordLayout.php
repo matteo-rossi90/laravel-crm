@@ -19,18 +19,18 @@ class ProfilePasswordLayout extends Rows
     {
         return [
             Password::make('old_password')
-                ->placeholder(__('Enter the current password'))
-                ->title(__('Current password'))
-                ->help('This is your password set at the moment.'),
+                ->placeholder(__('Inserisci la password'))
+                ->title(__('Password attuale'))
+                ->help('Password impostata al momento'),
 
             Password::make('password')
-                ->placeholder(__('Enter the password to be set'))
-                ->title(__('New password')),
+                ->placeholder(__('Inserisci la password che va sovrascritta'))
+                ->title(__('Nuova password')),
 
             Password::make('password_confirmation')
-                ->placeholder(__('Enter the password to be set'))
-                ->title(__('Confirm new password'))
-                ->help('A good password is at least 15 characters or at least 8 characters long, including a number and a lowercase letter.'),
+                ->placeholder(__('Inserisci la nuova password'))
+                ->title(__('Conferma la password'))
+                ->help('Una buona password è compresa tra 15 e 8 caratteri, compresi i numeri e le lettere minuscole.'),
         ];
     }
 }

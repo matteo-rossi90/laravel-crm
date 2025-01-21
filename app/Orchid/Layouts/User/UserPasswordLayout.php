@@ -24,8 +24,8 @@ class UserPasswordLayout extends Rows
         $exists = $user->exists;
 
         $placeholder = $exists
-            ? __('Leave empty to keep current password')
-            : __('Enter the password to be set');
+            ? __('Lascia in bianca se vuoi mantenere la password precedente')
+            : __('Inserisci la password');
 
         return [
             Password::make('user.password')
