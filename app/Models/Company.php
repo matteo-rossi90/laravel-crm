@@ -11,7 +11,6 @@ class Company extends Model
     use AsSource;
 
     protected $fillable = [
-        'employee_id',
         'type_id',
         'name',
         'VAT',
@@ -19,4 +18,14 @@ class Company extends Model
         'logo',
         'description'
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
 }

@@ -18,4 +18,9 @@ class Employee extends Model
         'company_id',
         'job'
     ];
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 }

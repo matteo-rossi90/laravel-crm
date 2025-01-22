@@ -19,12 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id')->nullable();
             $table->foreign('type_id')
                     ->references('id')
-                    ->on('type')
+                    ->on('types')
                     ->cascadeOnDelete();
-
             $table->string('name', 50);
             $table->char('VAT', 11);
-            $table->string('place');
+            $table->string('address');
             $table->text('description')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
