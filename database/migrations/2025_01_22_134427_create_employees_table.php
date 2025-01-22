@@ -13,26 +13,20 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('company', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('employee_id')->nullable();
-            $table->foreign('employee_id')
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')
                     ->references('id')
-                    ->on('employee')
-                    ->cascadeOnDelete();
-
-            $table->unsignedBigInteger('type_id')->nullable();
-            $table->foreign('type_id')
-                    ->references('id')
-                    ->on('type')
+                    ->on('company')
                     ->cascadeOnDelete();
 
             $table->string('name', 50);
-            $table->char('VAT', 11);
-            $table->string('place');
-            $table->text('description')->nullable();
-            $table->string('logo')->nullable();
+            $table->string('lastname', 50);
+            $table->char('phone_number', 10);
+            $table->char('email', 20);
+            $table->char('job', 20);
             $table->timestamps();
         });
 
@@ -44,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company');
+        Schema::dropIfExists('employees');
     }
 };

@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
+
+class Employee extends Model
+{
+    use AsSource;
+
+    protected $fillable = [
+        'name',
+        'lastname',
+        'phone_number',
+        'email',
+        'company_id',
+        'job'
+    ];
+}
