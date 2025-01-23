@@ -70,10 +70,14 @@ class PlatformProvider extends OrchidServiceProvider
                 // ->route('platform.example.cards')
                 // ->divider(),
 
-            Menu::make(__('Utenti'))
-                ->icon('bs.people')
-                ->route('platform.systems.users')
-                ->permission('platform.systems.users')
+            Menu::make('Dipendenti')
+            ->icon('bs.people')
+            ->route('platform.employee.table'),
+
+            // Menu::make(__('Utenti'))
+                // ->icon('bs.people')
+                // ->route('platform.systems.users')
+                // ->permission('platform.systems.users')
                 // ->title(__('Utenti presenti')),
 
             // Menu::make(__('Roles'))

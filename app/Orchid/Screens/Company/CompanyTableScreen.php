@@ -3,6 +3,8 @@
 namespace App\Orchid\Screens\Company;
 
 use App\Models\Company;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
@@ -18,7 +20,7 @@ class CompanyTableScreen extends Screen
     public function query(): iterable
     {
         return [
-            'companies' => Company::all()
+            'companies' => Company::with('type')->orderby('id', 'desc')->get()
         ];
     }
 
@@ -40,9 +42,9 @@ class CompanyTableScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make('Aggiungi azienda')
-            ->icon('plus')
-            ->class('btn btn-primary')
+            Link::make('Nuovo')
+            ->icon('bs.plus-circle')
+            ->class('btn btn-primary gap-2')
         ];
     }
 
@@ -57,9 +59,29 @@ class CompanyTableScreen extends Screen
 
             Layout::table('companies', [
                 TD::make('id', 'ID'),
-                TD::make('logo', 'Logo'),
+                //TD::make('logo', 'Logo'),
                 TD::make('name', 'Nome'),
                 TD::make('VAT', 'IVA'),
+                TD::make('type.name', 'Tipologia'),
+                TD::make('azioni')
+                    ->width('100px')
+                    ->render(fn(Company $company) => DropDown::make()
+                    ->icon('bs.three-dots-vertical')
+                    ->list([
+                        Link::make('Visualizza')
+                        ->icon('bs.eye'),
+
+                        Link::make(__('Modifica'))
+                        //->route('platform.systems.users.edit', $company->id)
+                        ->icon('bs.pencil'),
+
+                        Button::make(__('Cancella'))
+                        ->icon('bs.trash3')
+                        ->confirm(__('Una volta cancellato l\' azienda, non sarà possibile recuperarla. Sei sicuro di volerla eliminare ?'))
+                        ->method('remove', [
+                            'id' => $company->id,
+                        ]),
+                    ])),
             ])
         ];
     }

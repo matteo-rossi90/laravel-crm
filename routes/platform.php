@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Orchid\Screens\Company\CompanyTableScreen;
+use App\Orchid\Screens\Employee\EmployeeTableScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
@@ -97,12 +98,15 @@ Route::screen('example', ExampleScreen::class)
 // Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
 // Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
 
-// Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-// Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
-// Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
+//Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
+//Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
+//Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
 // Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
 // Route::screen('idea', Idea::class, 'platform.screens.idea');
 
 Route::screen('/aziende', CompanyTableScreen::class)
         ->name('platform.company.table');
+
+Route::screen('/dipendenti', EmployeeTableScreen::class)
+    ->name('platform.employee.table');
