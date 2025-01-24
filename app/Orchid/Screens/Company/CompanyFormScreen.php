@@ -5,12 +5,14 @@ namespace App\Orchid\Screens\Company;
 use App\Models\Company;
 use App\Models\Type;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Attach;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Screen;
@@ -61,6 +63,7 @@ class CompanyFormScreen extends Screen
      */
     public function layout(): iterable
     {
+
         return [
 
             Layout::rows([
@@ -68,15 +71,12 @@ class CompanyFormScreen extends Screen
                         Input::make('company.name')
                             ->title('Nome')
                             ->placeholder('Inserisci il nome')
-                            ->required()
-                            ->horizontal(),
+                            ->required(),
 
                         Input::make('company.VAT')
                             ->title('Partita IVA')
                             ->placeholder('Inserisci partita IVA')
-                            ->required()
-                            ->horizontal(),
-
+                            ->required(),
 
                      ]),
 
@@ -85,15 +85,13 @@ class CompanyFormScreen extends Screen
                     Input::make('company.address')
                         ->title('Indirizzo')
                         ->placeholder('Inserisci indirizzo')
-                        ->required()
-                        ->horizontal(),
+                        ->required(),
 
                     Select::make('company.type')
                         ->title('Settore')
                         ->fromModel(Type::class, 'types.name')
                         ->empty('Seleziona il settore di riferimento')
                         ->required()
-                        ->horizontal(),
             ]),
 
 
@@ -122,11 +120,10 @@ class CompanyFormScreen extends Screen
             'company.VAT' => 'required|string|max:11',
             'company.address' => 'nullable|string|max:255',
             'company.type' => 'required|exists:types,id',
-            'company.logo' => 'nullable|image|max:2048',
+            'company.logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'company.description' => 'nullable|string',
         ]);
-
-        // \Log::info("Dati inviati:, $data");
+        $this->messages();
 
         Company::create([
             'name' => $data['company']['name'],
@@ -139,4 +136,28 @@ class CompanyFormScreen extends Screen
         Toast::info('Azienda creata con successo!');
         return redirect()->route('platform.company.table');
     }
+
+    private function messages(){
+        return[
+            'company.name.required' => 'Il campo Nome è obbligatorio.',
+            'company.name.max' => 'Il campo Nome non può superare i 50 caratteri.',
+            'company.VAT.required' => 'Il campo Partita IVA è obbligatorio.',
+            'company.VAT.max' => 'La Partita IVA deve essere lunga al massimo 11 caratteri.',
+            'company.type.required' => 'Il campo Settore è obbligatorio.',
+            'company.type.exists' => 'Il settore selezionato non è valido.',
+            'company.logo.image' => 'Il logo deve essere un file immagine.',
+            'company.logo.mimes' => 'Il logo deve essere un file di tipo: png, jpg o jpeg.',
+            'company.logo.max' => 'Il logo non può superare i 2MB.',
+            'company.description.string' => 'La descrizione deve essere un testo valido.',
+        ];
+
+    }
+
+    private function getError($field)
+    {
+        $errors = Session::get('errors');
+        return $errors?->get($field)[0] ?? null;
+
+    }
+
 }

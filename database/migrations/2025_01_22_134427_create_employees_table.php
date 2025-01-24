@@ -24,8 +24,8 @@ return new class extends Migration
 
             $table->string('name', 50);
             $table->string('lastname', 50);
-            $table->char('phone_number', 20);
-            $table->char('email', 50)->unique();
+            $table->char('phone_number', 20)->nullable();
+            $table->char('email', 50)->unique()->nullable();
             $table->timestamps();
         });
 

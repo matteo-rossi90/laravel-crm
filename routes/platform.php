@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\Company\CompanyFormScreen;
 use App\Orchid\Screens\Company\CompanyTableScreen;
+use App\Orchid\Screens\Employee\EmployeeFormScreen;
 use App\Orchid\Screens\Employee\EmployeeTableScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
@@ -94,10 +95,10 @@ Route::screen('example', ExampleScreen::class)
         ->parent('platform.index')
         ->push('Generale'));
 
-Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
+// Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
+// Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
+// Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
+// Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
 
 //Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
 //Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
@@ -112,4 +113,5 @@ Route::screen('/aziende', CompanyTableScreen::class)
 Route::screen('/dipendenti', EmployeeTableScreen::class)
     ->name('platform.employee.table');
 
-    Route::screen('/aziende/aggiungi', CompanyFormScreen::class)->name('platform.company.create');
+Route::screen('/aziende/aggiungi', CompanyFormScreen::class)->name('platform.company.create');
+Route::screen('/dipendenti/aggiungi', EmployeeFormScreen::class)->name('platform.employee.create');

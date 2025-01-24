@@ -9,6 +9,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class EmployeeTableScreen extends Screen
 {
@@ -20,7 +21,8 @@ class EmployeeTableScreen extends Screen
     public function query(): iterable
     {
         return [
-            'employees' => Employee::with('company')->orderby('id', 'desc' )->get()
+            'employees' => Employee::with('company')->orderby('id', 'desc' )
+            ->paginate(10)
         ];
     }
 
@@ -43,6 +45,7 @@ class EmployeeTableScreen extends Screen
     {
         return [
             Link::make('Nuovo')
+            ->route('platform.employee.create')
             ->icon('bs.plus-circle')
             ->class('btn btn-primary gap-2')
         ];
@@ -58,12 +61,10 @@ class EmployeeTableScreen extends Screen
         return [
 
             Layout::table('employees', [
-                TD::make('id', 'ID'),
-                TD::make('name', 'Nome'),
-                TD::make('lastname', 'Cognome'),
-                TD::make('company.name', 'Azienda'),
-                TD::make('email', 'Email'),
-                TD::make('phone_number', 'Telefono'),
+                TD::make('id', 'ID')->sort(),
+                TD::make('name', 'Nome')->sort(),
+                TD::make('lastname', 'Cognome')->sort(),
+                TD::make('company.name', 'Azienda')->sort(),
                 TD::make('azioni')
                     ->width('100px')
                     ->render(fn(Employee $employee) => DropDown::make()
@@ -86,5 +87,19 @@ class EmployeeTableScreen extends Screen
                     ])),
             ])
         ];
+    }
+
+    /**
+     * Remove the specified company from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remove($id): \Illuminate\Http\RedirectResponse
+    {
+        $company = Employee::findOrFail($id);
+        $company->delete();
+        Toast::info(__('Dipendente eliminato con successo.'));
+        return redirect()->route('platform.employee.table');
     }
 }

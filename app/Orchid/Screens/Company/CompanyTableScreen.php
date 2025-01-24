@@ -21,7 +21,8 @@ class CompanyTableScreen extends Screen
     public function query(): iterable
     {
         return [
-            'companies' => Company::with('type')->orderby('id', 'desc')->get()
+            'companies' => Company::filters()->with('type')->orderby('id', 'desc')
+            ->paginate(10)
         ];
     }
 
@@ -60,9 +61,9 @@ class CompanyTableScreen extends Screen
         return [
 
             Layout::table('companies', [
-                TD::make('id', 'ID'),
+                TD::make('id', 'ID')->sort(),
                 //TD::make('logo', 'Logo'),
-                TD::make('name', 'Nome'),
+                TD::make('name', 'Nome')->sort(),
                 TD::make('VAT', 'IVA'),
                 TD::make('type.name', 'Tipologia'),
                 TD::make('azioni')
@@ -89,7 +90,7 @@ class CompanyTableScreen extends Screen
     }
 
     /**
-     * Remove the specified company from storage.
+     * Remove the specified employee from storage.
      *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
@@ -102,5 +103,29 @@ class CompanyTableScreen extends Screen
         Toast::info(__('Azienda eliminata con successo.'));
 
         return redirect()->route('platform.company.table');
+    }
+
+    /**
+     * @return string
+     */
+    protected function iconNotFound(): string
+    {
+        return 'table';
+    }
+
+    /**
+     * @return string
+     */
+    protected function textNotFound(): string
+    {
+        return __('Non ci sono risorse da mostrare');
+    }
+
+    /**
+     * @return string
+     */
+    protected function subNotFound(): string
+    {
+        return '';
     }
 }
