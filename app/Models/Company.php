@@ -14,7 +14,7 @@ class Company extends Model
         'type_id',
         'name',
         'VAT',
-        'place',
+        'address',
         'logo',
         'description'
     ];

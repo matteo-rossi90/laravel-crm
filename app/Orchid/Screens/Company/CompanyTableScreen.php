@@ -9,6 +9,7 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class CompanyTableScreen extends Screen
 {
@@ -43,8 +44,9 @@ class CompanyTableScreen extends Screen
     {
         return [
             Link::make('Nuovo')
-            ->icon('bs.plus-circle')
-            ->class('btn btn-primary gap-2')
+                ->route('platform.company.create')
+                ->icon('bs.plus-circle')
+                ->class('btn btn-primary gap-2')
         ];
     }
 
@@ -72,7 +74,7 @@ class CompanyTableScreen extends Screen
                         ->icon('bs.eye'),
 
                         Link::make(__('Modifica'))
-                        //->route('platform.systems.users.edit', $company->id)
+                        //->route('platform.company.create', $company->id)
                         ->icon('bs.pencil'),
 
                         Button::make(__('Cancella'))
@@ -84,5 +86,21 @@ class CompanyTableScreen extends Screen
                     ])),
             ])
         ];
+    }
+
+    /**
+     * Remove the specified company from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remove($id): \Illuminate\Http\RedirectResponse
+    {
+        $company = Company::findOrFail($id);
+        $company->delete();
+
+        Toast::info(__('Azienda eliminata con successo.'));
+
+        return redirect()->route('platform.company.table');
     }
 }

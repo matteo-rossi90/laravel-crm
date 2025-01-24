@@ -22,7 +22,7 @@ class CompanySeeder extends Seeder
             $new_company->VAT = $faker->numerify('##########');
             $new_company->address = $faker->address();
             $new_company->description = $faker->paragraph(8);
-            $new_company->logo = $faker->imageUrl(300, 300, 'business', true, 'logo');
+            $new_company->logo = $faker->imageUrl(100, 100, 'business', true, 'logo');
             $new_company->save();
         }
     }

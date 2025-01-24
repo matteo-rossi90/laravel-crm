@@ -70,6 +70,9 @@ class EmployeeTableScreen extends Screen
                     ->icon('bs.three-dots-vertical')
                     ->list([
 
+                        Link::make('Visualizza')
+                        ->icon('bs.eye'),
+
                         Link::make(__('Modifica'))
                         //->route('platform.systems.users.edit', $employee->id)
                         ->icon('bs.pencil'),

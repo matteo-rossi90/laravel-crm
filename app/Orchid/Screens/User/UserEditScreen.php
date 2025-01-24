@@ -174,7 +174,7 @@ class UserEditScreen extends Screen
 
         $user->replaceRoles($request->input('user.roles'));
 
-        Toast::info(__('User was saved.'));
+        Toast::info(__('Utente salvato.'));
 
         return redirect()->route('platform.systems.users');
     }
