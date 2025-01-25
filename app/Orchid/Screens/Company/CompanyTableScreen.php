@@ -75,7 +75,6 @@ class CompanyTableScreen extends Screen
                     : '<span>Nessun logo</span>';
                 }),
                 TD::make('name', 'Nome')->sort(),
-                TD::make('VAT', 'IVA'),
                 TD::make('type.name', 'Settore'),
                 TD::make('azioni')
                     ->width('100px')
@@ -83,6 +82,7 @@ class CompanyTableScreen extends Screen
                     ->icon('bs.three-dots-vertical')
                     ->list([
                         Link::make('Visualizza')
+                        ->route('platform.company.show', $company->id)
                         ->icon('bs.eye'),
 
                         Link::make(__('Modifica'))

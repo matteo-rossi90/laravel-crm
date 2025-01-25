@@ -85,20 +85,13 @@ class EmployeeShowScreen extends Screen
                     ->horizontal()
                     ->value($this->employee->lastname),
 
-                Label::make('Email')
-                    ->title('Email:')
-                    ->horizontal()
-                    ->value($this->employee->email),
-
-                Label::make('Telefono')
-                    ->title('Telefono:')
-                    ->horizontal()
-                    ->value($this->employee->phone_number),
-
                 Label::make('Azienda')
                     ->title('Azienda:')
                     ->horizontal()
-                    ->value($this->employee->company->name),
+                    ->value(Link::make($this->employee->company->name)
+                                ->class('badge bg-info text-light p-2')
+                                ->route('platform.company.show', $this->employee->company->id)
+                            ),
 
                 Label::make('Aggiunto il')
                     ->title('Aggiunto il:')
@@ -106,11 +99,25 @@ class EmployeeShowScreen extends Screen
                     ->value($this->employee->created_at),
 
                 Label::make('Ultima modifica:')
-                ->title('Ultima modifica:')
-                ->horizontal()
-                ->value($this->employee->updated_at),
+                    ->title('Ultima modifica:')
+                    ->horizontal()
+                    ->value($this->employee->updated_at),
 
-            ]),
+            ])->title('Informazioni generali'),
+
+            Layout::rows([
+
+                Label::make('Email')
+                ->title('Email:')
+                ->horizontal()
+                ->value($this->employee->email),
+
+                Label::make('Telefono')
+                ->title('Telefono:')
+                ->horizontal()
+                ->value($this->employee->phone_number),
+
+            ])->title('Recapiti')
         ];
 
 
