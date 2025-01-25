@@ -9,6 +9,7 @@ use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
+use Orchid\Support\Facades\Toast;
 
 class EmployeeShowScreen extends Screen
 {
@@ -58,6 +59,10 @@ class EmployeeShowScreen extends Screen
             Button::make()
             ->icon('bs.trash3')
             ->class('btn p-2 rounded-1 text-danger')
+            ->confirm(__('Una volta cancellato il dipendente, non sarà possibile recuperarlo. Sei sicuro di eliminarlo?.'))
+            ->method('remove', [
+                'id' => $this->employee->id,
+            ])
         ];
     }
 
@@ -71,26 +76,62 @@ class EmployeeShowScreen extends Screen
         return [
             Layout::rows([
                 Label::make('Nome')
-                    ->title('Nome')
+                    ->title('Nome:')
                     ->horizontal()
                     ->value($this->employee->name),
 
                 Label::make('Cognome')
-                    ->title('Cognome')
+                    ->title('Cognome:')
                     ->horizontal()
                     ->value($this->employee->lastname),
 
                 Label::make('Email')
-                    ->title('Email')
+                    ->title('Email:')
                     ->horizontal()
                     ->value($this->employee->email),
 
+                Label::make('Telefono')
+                    ->title('Telefono:')
+                    ->horizontal()
+                    ->value($this->employee->phone_number),
+
                 Label::make('Azienda')
-                    ->title('Azienda')
+                    ->title('Azienda:')
                     ->horizontal()
                     ->value($this->employee->company->name),
 
+                Label::make('Aggiunto il')
+                    ->title('Aggiunto il:')
+                    ->horizontal()
+                    ->value($this->employee->created_at),
+
+                Label::make('Ultima modifica:')
+                ->title('Ultima modifica:')
+                ->horizontal()
+                ->value($this->employee->updated_at),
+
             ]),
         ];
+
+
+    }
+
+    /**
+     * Rimuovi il dipendente dal database.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remove($id): \Illuminate\Http\RedirectResponse
+    {
+        $employee = Employee::findOrFail($id);
+
+        if ($employee->delete()) {
+            Toast::info(__('Dipendente eliminato con successo.'));
+        } else {
+            Toast::danger(__('Errore nella procedura'));
+        }
+
+        return redirect()->route('platform.employee.table');
     }
 }
