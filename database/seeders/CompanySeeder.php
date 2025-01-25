@@ -15,14 +15,25 @@ class CompanySeeder extends Seeder
      */
     public function run(Faker $faker): void
     {
-        for($i = 0; $i < 5; $i++){
+        $logos = [
+            'img/logo1.png',
+            'img/logo2.png',
+            'img/logo3.png',
+            'img/logo4.png',
+            'img/logo5.png',
+        ];
+
+        $logoIndex = 0;
+
+        for($i = 0; $i < count($logos); $i++){
             $new_company = new Company();
             $new_company->type_id = Type::inRandomOrder()->first()->id;
             $new_company->name = $faker->randomElement(['TechNova Solutions','GreenField Industries','BlueWave Technologies','EcoSphere Energy','NextGen Innovations']);
             $new_company->VAT = $faker->numerify('##########');
             $new_company->address = $faker->address();
             $new_company->description = $faker->paragraph(8);
-            $new_company->logo = $faker->imageUrl(100, 100, 'business', true, 'logo');
+            $new_company->logo = $logos[$i];
+
             $new_company->save();
         }
     }

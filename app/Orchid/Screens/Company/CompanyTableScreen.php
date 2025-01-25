@@ -59,13 +59,17 @@ class CompanyTableScreen extends Screen
     public function layout(): iterable
     {
         return [
-
             Layout::table('companies', [
                 TD::make('id', 'ID')->sort(),
-                //TD::make('logo', 'Logo'),
+                TD::make('logo', 'Logo')
+                    ->render(function (Company $company) {
+                        return $company->logo
+                        ? "<img src='" . asset('storage/' . $company->logo) . "' alt='Logo' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;'>"
+                        : '<span>Nessun logo</span>';
+                    }),
                 TD::make('name', 'Nome')->sort(),
                 TD::make('VAT', 'IVA'),
-                TD::make('type.name', 'Tipologia'),
+                TD::make('type.name', 'Settore'),
                 TD::make('azioni')
                     ->width('100px')
                     ->render(fn(Company $company) => DropDown::make()

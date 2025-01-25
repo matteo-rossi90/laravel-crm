@@ -44,6 +44,13 @@ return [
             'throw' => false,
         ],
 
+        'custom_img' => [
+            'driver' => 'local',
+            'root' => storage_path('app/img'), // Cartella personalizzata per i loghi
+            'url' => env('APP_URL') . '/storage/img',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -95,10 +95,11 @@ class CompanyFormScreen extends Screen
             ]),
 
 
-                Cropper::make('company.logo')
-                ->title('Logo aziendale')
-                ->width(100)
-                ->height(100),
+                Attach::make('company.logo')
+                    ->title('Carica logo azienale')
+                    ->accept('image/*')
+                    ->popover('Seleziona un\'immagine che sia in formato png, jpg o jpeg')
+                    ->maxFiles(1),
 
                 SimpleMDE::make('company.description')
                 ->title('Descrizione')
@@ -120,19 +121,29 @@ class CompanyFormScreen extends Screen
             'company.VAT' => 'required|string|max:11',
             'company.address' => 'nullable|string|max:255',
             'company.type' => 'required|exists:types,id',
-            'company.logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'company.logo' => 'nullable|max:2048',
             'company.description' => 'nullable|string',
         ]);
         $this->messages();
 
-        Company::create([
+        $company = Company::create([
             'name' => $data['company']['name'],
             'VAT' => $data['company']['VAT'],
             'address' => $data['company']['address'] ?? null,
             'type_id' => $data['company']['type'],
-            'logo' => $data['company']['logo'] ?? null,
             'description' => $data['company']['description'] ?? null,
         ]);
+
+        if (request()->hasFile('company.logo')) {
+
+            $image = request()->file('company.logo');
+            $path = $image->store('img', 'public');
+
+            $company->logo = $path;
+
+            $company->save();
+        }
+
         Toast::info('Azienda creata con successo!');
         return redirect()->route('platform.company.table');
     }

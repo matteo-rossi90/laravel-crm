@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
 class Company extends Model
 {
-    use AsSource, Filterable;
+    use AsSource, Filterable, Attachable;
 
     protected $fillable = [
         'type_id',
