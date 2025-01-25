@@ -47,7 +47,7 @@ class EmployeeTableScreen extends Screen
             Link::make('Nuovo')
             ->route('platform.employee.create')
             ->icon('bs.plus-circle')
-            ->class('btn btn-primary gap-2')
+            ->class('btn btn-primary gap-2 rounded-1')
         ];
     }
 
@@ -72,6 +72,7 @@ class EmployeeTableScreen extends Screen
                     ->list([
 
                         Link::make('Visualizza')
+                        ->route('platform.employee.show', $employee->id)
                         ->icon('bs.eye'),
 
                         Link::make(__('Modifica'))
@@ -90,16 +91,20 @@ class EmployeeTableScreen extends Screen
     }
 
     /**
-     * Remove the specified company from storage.
+     * Remove the specified employee from storage.
      *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function remove($id): \Illuminate\Http\RedirectResponse
     {
-        $company = Employee::findOrFail($id);
-        $company->delete();
-        Toast::info(__('Dipendente eliminato con successo.'));
+        $employee = Employee::findOrFail($id);
+        if($employee->delete()){
+            Toast::info(__('Dipendente eliminato con successo.'));
+        }else{
+            Toast::danger(__('Errore nella procedura'));
+        }
+
         return redirect()->route('platform.employee.table');
     }
 }

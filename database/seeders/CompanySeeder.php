@@ -23,7 +23,6 @@ class CompanySeeder extends Seeder
             'img/logo5.png',
         ];
 
-        $logoIndex = 0;
 
         for($i = 0; $i < count($logos); $i++){
             $new_company = new Company();

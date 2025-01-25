@@ -80,12 +80,14 @@ class EmployeeSeeder extends Seeder
 
         foreach($employees as $employee){
 
+
             $new_employee = new Employee();
             $new_employee->name = $employee['name'];
             $new_employee->company_id = Company::inRandomOrder()->first()->id;
             $new_employee->lastname = $employee['lastname'];
             $new_employee->phone_number = $employee['phone_number'];
             $new_employee->email = $employee['email'];
+
             $new_employee->save();
         }
     }

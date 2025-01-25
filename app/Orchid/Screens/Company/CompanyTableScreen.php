@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens\Company;
 
 use App\Models\Company;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
@@ -47,7 +48,7 @@ class CompanyTableScreen extends Screen
             Link::make('Nuovo')
                 ->route('platform.company.create')
                 ->icon('bs.plus-circle')
-                ->class('btn btn-primary gap-2')
+                ->class('btn btn-primary gap-2 rounded-1')
         ];
     }
 
@@ -62,11 +63,17 @@ class CompanyTableScreen extends Screen
             Layout::table('companies', [
                 TD::make('id', 'ID')->sort(),
                 TD::make('logo', 'Logo')
-                    ->render(function (Company $company) {
-                        return $company->logo
-                        ? "<img src='" . asset('storage/' . $company->logo) . "' alt='Logo' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;'>"
-                        : '<span>Nessun logo</span>';
-                    }),
+                ->render(function (Company $company) {
+                    $logoPath = $company->logo;
+
+                    if (strpos($logoPath, 'storage/') === false) {
+                        $logoPath = 'storage/' . $logoPath;
+                    }
+
+                    return $logoPath
+                    ? "<img src='" . asset($logoPath) . "' alt='Logo' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;'>"
+                    : '<span>Nessun logo</span>';
+                }),
                 TD::make('name', 'Nome')->sort(),
                 TD::make('VAT', 'IVA'),
                 TD::make('type.name', 'Settore'),
@@ -84,7 +91,7 @@ class CompanyTableScreen extends Screen
 
                         Button::make(__('Cancella'))
                         ->icon('bs.trash3')
-                        ->confirm(__('Una volta cancellato l\' azienda, non sarà possibile recuperarla. Sei sicuro di volerla eliminare ?'))
+                        ->confirm(__('Una volta cancellata l\' azienda, non sarà possibile recuperarla. Sei sicuro di volerla eliminare ?'))
                         ->method('remove', [
                             'id' => $company->id,
                         ]),

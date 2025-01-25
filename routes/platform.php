@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Orchid\Screens\Company\CompanyFormScreen;
 use App\Orchid\Screens\Company\CompanyTableScreen;
 use App\Orchid\Screens\Employee\EmployeeFormScreen;
+use App\Orchid\Screens\Employee\EmployeeShowScreen;
 use App\Orchid\Screens\Employee\EmployeeTableScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
@@ -115,3 +116,4 @@ Route::screen('/dipendenti', EmployeeTableScreen::class)
 
 Route::screen('/aziende/aggiungi', CompanyFormScreen::class)->name('platform.company.create');
 Route::screen('/dipendenti/aggiungi', EmployeeFormScreen::class)->name('platform.employee.create');
+Route::screen('/dipendenti/{employee}', EmployeeShowScreen::class)->name('platform.employee.show');

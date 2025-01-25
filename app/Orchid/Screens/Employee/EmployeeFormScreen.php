@@ -48,7 +48,7 @@ class EmployeeFormScreen extends Screen
         return [
             Link::make('Indietro')
             ->route('platform.company.table')
-            ->class('btn gap-2 align-items-center')
+            ->class('btn gap-2 align-items-center rounded-1')
             ->icon('bs.arrow-left-circle')
         ];
     }

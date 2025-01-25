@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Type;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Attach;
@@ -51,7 +52,7 @@ class CompanyFormScreen extends Screen
         return [
             Link::make('Indietro')
                 ->route('platform.company.table')
-                ->class('btn gap-2 align-items-center')
+                ->class('btn gap-2 align-items-center rounded-1')
                 ->icon('bs.arrow-left-circle')
         ];
     }
@@ -95,11 +96,20 @@ class CompanyFormScreen extends Screen
             ]),
 
 
-                Attach::make('company.logo')
-                    ->title('Carica logo azienale')
-                    ->accept('image/*')
-                    ->popover('Seleziona un\'immagine che sia in formato png, jpg o jpeg')
-                    ->maxFiles(1),
+                // Attach::make('company.logo')
+                // ->title('Carica logo azienale')
+                // ->accept('image/*')
+                // ->popover('Seleziona un\'immagine che sia in formato png, jpg o jpeg')
+                // ->maxFiles(1),
+
+                Cropper::make('company.logo')
+                ->title('Carica logo aziendale')
+                ->targetRelativeUrl()
+                ->storage('public')
+                ->path('img')
+                    ->maxFileSize(2)
+                    ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg']),
+
 
                 SimpleMDE::make('company.description')
                 ->title('Descrizione')
@@ -108,7 +118,7 @@ class CompanyFormScreen extends Screen
                 Button::make('Aggiungi')
                 ->method('saveCompany')
                 ->icon('bs.check-circle')
-                ->class('btn btn-primary gap-2'),
+                ->class('btn btn-primary gap-2 rounded-1'),
 
                 ])->title('Informazioni')
         ];
@@ -126,25 +136,38 @@ class CompanyFormScreen extends Screen
         ]);
         $this->messages();
 
+        // if (request()->hasFile('company.logo')) {
+        // $image = request()->file('company.logo');
+        // $path = $image->store('img', 'public');
+        // $company->logo = $path;
+        // $company->save();
+        // }
+
+        // if (array_key_exists('logo', $data)) {
+        // $image = Storage::put('img', $data['logo']);
+        // $data['logo'] = $image;
+        // }
+
+        if (request()->hasFile('company.logo')) {
+            $image = request()->file('company.logo');
+            $path = $image->store('img', 'public');
+            $data['company']['logo'] = $path;
+        }
+
         $company = Company::create([
             'name' => $data['company']['name'],
             'VAT' => $data['company']['VAT'],
             'address' => $data['company']['address'] ?? null,
             'type_id' => $data['company']['type'],
+            'logo' => $data['company']['logo'],
             'description' => $data['company']['description'] ?? null,
         ]);
 
-        if (request()->hasFile('company.logo')) {
-
-            $image = request()->file('company.logo');
-            $path = $image->store('img', 'public');
-
-            $company->logo = $path;
-
-            $company->save();
+        if($company){
+            Toast::info('Azienda creata con successo!');
+        }else{
+            Toast::warning('Errore nella procedura');
         }
-
-        Toast::info('Azienda creata con successo!');
         return redirect()->route('platform.company.table');
     }
 
