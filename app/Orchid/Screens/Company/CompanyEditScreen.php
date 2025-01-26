@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Company;
 
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use App\Models\Type;
 use Orchid\Screen\Actions\Button;
@@ -66,7 +67,7 @@ class CompanyEditScreen extends Screen
 
             Layout::rows([
 
-                Input::make('employee.name')
+                Input::make('company.name')
                     ->title('Nome')
                     ->value($this->company->name)
                     ->horizontal()
@@ -84,6 +85,7 @@ class CompanyEditScreen extends Screen
                         Type::pluck('name', 'id')->toArray()
                     )
                     ->value($this->company->type_id)
+                    ->empty('Nessuno')
                     ->horizontal()
                     ->required(),
 
@@ -99,7 +101,8 @@ class CompanyEditScreen extends Screen
                         ->storage('public')
                         ->path('img')
                             ->maxFileSize(2)
-                            ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg']),
+                            ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg'])
+                            ->horizontal(),
 
                 SimpleMDE::make('company.description')
                     ->title('Descrizione')
@@ -114,9 +117,13 @@ class CompanyEditScreen extends Screen
         ];
     }
 
-    public function updateCompany()
+    public function updateCompany(CompanyRequest $request)
     {
-        $this->company->update(request()->get('company'));
+        $data = $request->validated();
+
+        $this->company->update($data['company']);
+
+        // $this->company->update(request()->get('company'));
         Toast::info('Azienda aggiornata con successo!');
         return redirect()->route('platform.company.show', $this->company->id);
     }
