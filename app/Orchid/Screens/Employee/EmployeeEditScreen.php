@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Employee;
 
+use App\Http\Requests\EmployeeRequest;
 use App\Models\Company;
 use App\Models\Employee;
 use Orchid\Icons\Icon;
@@ -105,9 +106,11 @@ class EmployeeEditScreen extends Screen
         ];
     }
 
-    public function updateEmployee()
+    public function updateEmployee(EmployeeRequest $request)
     {
-        $this->employee->update(request()->get('employee'));
+        $data = $request->validated();
+
+        $this->employee->update($data['employee']);
 
         Toast::info('Dipendente aggiornato con successo!');
 

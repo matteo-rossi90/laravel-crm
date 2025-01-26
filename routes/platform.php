@@ -114,7 +114,7 @@ Route::screen('example', ExampleScreen::class)
 
 Route::screen('/aziende', CompanyTableScreen::class)->name('platform.company.table');
 Route::screen('/azienda/{company}', CompanyShowScreen::class)->name('platform.company.show');
-Route::screen('/azienda/{company}/modifica', CompanyEditScreen::class)->name('platform.company.edit')->middleware('web');
+Route::screen('/azienda/{company}/modifica', CompanyEditScreen::class)->name('platform.company.edit');
 Route::screen('/aziende/aggiungi', CompanyFormScreen::class)->name('platform.company.create');
 
 Route::screen('/dipendenti', EmployeeTableScreen::class)->name('platform.employee.table');

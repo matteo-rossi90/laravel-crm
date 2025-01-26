@@ -86,8 +86,7 @@ class CompanyEditScreen extends Screen
                     )
                     ->value($this->company->type_id)
                     ->empty('Nessuno')
-                    ->horizontal()
-                    ->required(),
+                    ->horizontal(),
 
                 Input::make('company.address')
                     ->title('Indirizzo')
@@ -100,9 +99,11 @@ class CompanyEditScreen extends Screen
                         ->value($this->company->logo)
                         ->storage('public')
                         ->path('img')
-                            ->maxFileSize(2)
-                            ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg'])
-                            ->horizontal(),
+                        ->width(100)
+                        ->height(100)
+                        ->maxFileSize(2)
+                        ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg'])
+                        ->horizontal(),
 
                 SimpleMDE::make('company.description')
                     ->title('Descrizione')
@@ -119,12 +120,20 @@ class CompanyEditScreen extends Screen
 
     public function updateCompany(CompanyRequest $request)
     {
+
         $data = $request->validated();
+
+        if (isset($data['company']['type_id'])) {
+            $data['company']['type_id'] = (int) $data['company']['type_id'];
+        }
 
         $this->company->update($data['company']);
 
+
         // $this->company->update(request()->get('company'));
         Toast::info('Azienda aggiornata con successo!');
+
         return redirect()->route('platform.company.show', $this->company->id);
+
     }
 }

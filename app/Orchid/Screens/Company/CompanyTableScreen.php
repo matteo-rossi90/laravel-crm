@@ -86,7 +86,7 @@ class CompanyTableScreen extends Screen
                         ->icon('bs.eye'),
 
                         Link::make(__('Modifica'))
-                        //->route('platform.company.create', $company->id)
+                        ->route('platform.company.edit', $company->id)
                         ->icon('bs.pencil'),
 
                         Button::make(__('Cancella'))

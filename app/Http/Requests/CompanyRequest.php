@@ -25,7 +25,7 @@ class CompanyRequest extends FormRequest
 
             'company.name' => 'required|regex:/^[a-zA-Zà-ùÀ-Ù\s]+$/|min:3|max:50',
             'company.VAT' => 'required|regex:/^[0-9]+$/|max:11|min:11',
-            'company.type_id' => 'required|exists:types,id',
+            'company.type_id' => 'nullable|exists:types,id',
             'company.address' => 'nullable|string|max:255',
             'company.description' => 'nullable|string',
             'company.logo' => 'nullable',
@@ -43,8 +43,8 @@ class CompanyRequest extends FormRequest
             'company.VAT.required' => 'La partita IVA è obbligatoria.',
             'company.VAT.max' => 'La partita IVA può contenere massimo :max numeri',
             'company.VAT.min' => 'La partita IVA non può avere meno di :min numeri',
-            'company.type_id.required' => 'Il settore è un campo obbligatorio',
-            'company.type_id.exists' =>'il settore deve essere un elemento valido'
+            'company.type.exists' =>'Il settore deve contenere un elemento valido',
+            'company.address.max' => 'L\'indirizzo non deve superare :max caratteri'
             // 'company.logo.image' => 'L\'immagine non è valida',
             // 'company.logo.mimes' => 'L\'immagine può essere solo in formato .jpg, .png o .jpeg '
         ];

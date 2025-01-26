@@ -51,9 +51,9 @@ class CompanyShowScreen extends Screen
     {
         return [
             Link::make('Indietro')
-            ->route('platform.employee.table')
-            ->icon('bs.arrow-left-circle')
-            ->class('btn gap-2 rounded-1'),
+                ->route('platform.employee.table')
+                ->icon('bs.arrow-left-circle')
+                ->class('btn gap-2 rounded-1'),
 
             Link::make()
                 ->route('platform.company.edit', $this->company->id)
@@ -111,7 +111,7 @@ class CompanyShowScreen extends Screen
 
                     Label::make('Settore')
                         ->title('Settore')
-                        ->value($this->company->type->name)
+                        ->value($this->company->type ? $this->company->type->name : 'Nessun settore disponibile')
                         ->horizontal(),
 
                     Label::make('Descrizione')

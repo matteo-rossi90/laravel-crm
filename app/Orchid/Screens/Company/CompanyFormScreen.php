@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Company;
 
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use App\Models\Type;
 use Illuminate\Http\RedirectResponse;
@@ -85,10 +86,9 @@ class CompanyFormScreen extends Screen
 
                     Input::make('company.address')
                         ->title('Indirizzo')
-                        ->placeholder('Inserisci indirizzo')
-                        ->required(),
+                        ->placeholder('Inserisci indirizzo'),
 
-                    Select::make('company.type')
+                    Select::make('company.type_id')
                         ->title('Settore')
                         ->fromModel(Type::class, 'types.name')
                         ->empty('Seleziona il settore di riferimento')
@@ -103,38 +103,33 @@ class CompanyFormScreen extends Screen
                 // ->maxFiles(1),
 
                 Cropper::make('company.logo')
-                ->title('Carica logo aziendale')
-                ->targetRelativeUrl()
-                ->storage('public')
-                ->path('img')
+                    ->title('Carica logo aziendale')
+                    ->targetRelativeUrl()
+                    ->storage('public')
+                    ->width(100)
+                    ->height(100)
+                    ->path('img')
                     ->maxFileSize(2)
-                    ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg']),
+                    ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg'])
+                    ->horizontal(),
 
 
                 SimpleMDE::make('company.description')
-                ->title('Descrizione')
-                ->popover('Descrivi l\'azienda che vuoi inserire'),
+                    ->title('Descrizione')
+                    ->popover('Descrivi l\'azienda che vuoi inserire'),
 
                 Button::make('Aggiungi')
-                ->method('saveCompany')
-                ->icon('bs.check-circle')
-                ->class('btn btn-primary gap-2 rounded-1'),
+                    ->method('saveCompany')
+                    ->icon('bs.check-circle')
+                    ->class('btn btn-primary gap-2 rounded-1'),
 
                 ])->title('Informazioni')
         ];
     }
 
-    public function saveCompany(): RedirectResponse
+    public function saveCompany(CompanyRequest $request): RedirectResponse
     {
-        $data = request()->validate([
-            'company.name' => 'required|string|max:50',
-            'company.VAT' => 'required|string|max:11',
-            'company.address' => 'nullable|string|max:255',
-            'company.type' => 'required|exists:types,id',
-            'company.logo' => 'nullable|max:2048',
-            'company.description' => 'nullable|string',
-        ]);
-        $this->messages();
+        $data = $request->validated();
 
         // if (request()->hasFile('company.logo')) {
         // $image = request()->file('company.logo');
@@ -158,7 +153,7 @@ class CompanyFormScreen extends Screen
             'name' => $data['company']['name'],
             'VAT' => $data['company']['VAT'],
             'address' => $data['company']['address'] ?? null,
-            'type_id' => $data['company']['type'],
+            'type_id' => $data['company']['type_id'],
             'logo' => $data['company']['logo'],
             'description' => $data['company']['description'] ?? null,
         ]);
@@ -169,29 +164,6 @@ class CompanyFormScreen extends Screen
             Toast::warning('Errore nella procedura');
         }
         return redirect()->route('platform.company.table');
-    }
-
-    private function messages(){
-        return[
-            'company.name.required' => 'Il campo Nome è obbligatorio.',
-            'company.name.max' => 'Il campo Nome non può superare i 50 caratteri.',
-            'company.VAT.required' => 'Il campo Partita IVA è obbligatorio.',
-            'company.VAT.max' => 'La Partita IVA deve essere lunga al massimo 11 caratteri.',
-            'company.type.required' => 'Il campo Settore è obbligatorio.',
-            'company.type.exists' => 'Il settore selezionato non è valido.',
-            'company.logo.image' => 'Il logo deve essere un file immagine.',
-            'company.logo.mimes' => 'Il logo deve essere un file di tipo: png, jpg o jpeg.',
-            'company.logo.max' => 'Il logo non può superare i 2MB.',
-            'company.description.string' => 'La descrizione deve essere un testo valido.',
-        ];
-
-    }
-
-    private function getError($field)
-    {
-        $errors = Session::get('errors');
-        return $errors?->get($field)[0] ?? null;
-
     }
 
 }
