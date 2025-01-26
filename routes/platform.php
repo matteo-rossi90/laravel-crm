@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Orchid\Screens\Company\CompanyFormScreen;
 use App\Orchid\Screens\Company\CompanyShowScreen;
 use App\Orchid\Screens\Company\CompanyTableScreen;
+use App\Orchid\Screens\Employee\EmployeeEditScreen;
 use App\Orchid\Screens\Employee\EmployeeFormScreen;
 use App\Orchid\Screens\Employee\EmployeeShowScreen;
 use App\Orchid\Screens\Employee\EmployeeTableScreen;
@@ -118,4 +119,5 @@ Route::screen('/dipendenti', EmployeeTableScreen::class)->name('platform.employe
 
 Route::screen('/dipendenti/aggiungi', EmployeeFormScreen::class)->name('platform.employee.create');
 Route::screen('/dipendenti/{employee}', EmployeeShowScreen::class)->name('platform.employee.show');
+Route::screen('/dipendenti/{employee}/modifica', EmployeeEditScreen::class)->name('platform.employee.edit');
 

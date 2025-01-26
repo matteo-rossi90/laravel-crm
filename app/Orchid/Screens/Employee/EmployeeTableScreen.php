@@ -76,7 +76,7 @@ class EmployeeTableScreen extends Screen
                         ->icon('bs.eye'),
 
                         Link::make(__('Modifica'))
-                        //->route('platform.systems.users.edit', $employee->id)
+                        ->route('platform.employee.edit', $employee->id)
                         ->icon('bs.pencil'),
 
                         Button::make(__('Cancella'))

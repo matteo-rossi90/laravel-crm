@@ -52,7 +52,7 @@ class EmployeeShowScreen extends Screen
             ->class('btn gap-2 rounded-1'),
 
             Link::make()
-            //->route('platform.employee.edit, $employee->id')
+            ->route('platform.employee.edit', $this->employee->id)
             ->icon('bs.pencil')
             ->class('btn p-2 rounded-1'),
 
