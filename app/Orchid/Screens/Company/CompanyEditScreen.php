@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Type;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\SimpleMDE;
@@ -90,6 +91,15 @@ class CompanyEditScreen extends Screen
                     ->title('Indirizzo')
                     ->value($this->company->address)
                     ->horizontal(),
+
+                Cropper::make('company.logo')
+                        ->title('Carica logo aziendale')
+                        ->targetRelativeUrl()
+                        ->value($this->company->logo)
+                        ->storage('public')
+                        ->path('img')
+                            ->maxFileSize(2)
+                            ->acceptedTypes(['image/jpeg', 'image/png', 'image/jpg']),
 
                 SimpleMDE::make('company.description')
                     ->title('Descrizione')

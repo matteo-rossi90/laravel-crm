@@ -79,16 +79,23 @@ class CompanyShowScreen extends Screen
     {
         // $logoPath = $this->company->logo;
         // if ($logoPath && strpos($logoPath, 'storage/') === false) {
-            // $logoPath = 'storage/' . $logoPath;
+        // $logoPath = 'storage/' . $logoPath;
         //  }
+
+        $logoPath = $this->company->logo;
+
+        if ($logoPath && strpos($logoPath, 'storage/') === false) {
+            $logoPath = 'storage/' . $logoPath;
+        }
 
         return [
 
+
             Layout::columns([
 
-                //  Layout::view('platform::images\logo', [
-                    //  'logo' => $logoPath ?: 'images/default-logo.png',
-                //  ]),
+                Layout::view('platform::images\logo', [
+                    'logo' => $logoPath ?: 'images/default-logo.png',
+                ]),
 
                 Layout::rows([
 
