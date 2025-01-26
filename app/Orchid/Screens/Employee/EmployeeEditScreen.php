@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Employee;
 
 use App\Models\Company;
 use App\Models\Employee;
+use Orchid\Icons\Icon;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
@@ -62,20 +63,21 @@ class EmployeeEditScreen extends Screen
         return [
 
             Layout::rows([
+
                 Input::make('employee.name')
-                ->title('Nome')
+                    ->title('Nome')
                     ->value($this->employee->name)
                     ->horizontal()
                     ->required(),
 
                 Input::make('employee.lastname')
-                ->title('Cognome')
+                    ->title('Cognome')
                     ->value($this->employee->lastname)
                     ->horizontal()
                     ->required(),
 
                 Select::make('employee.company_id')
-                ->title('Azienda')
+                    ->title('Azienda')
                     ->options(
                         Company::pluck('name', 'id')->toArray()
                     )
@@ -84,31 +86,31 @@ class EmployeeEditScreen extends Screen
                     ->required(),
 
                 Input::make('employee.email')
-                ->title('Email')
-                ->value($this->employee->email)
-                ->horizontal()
-                ->required(),
+                    ->title('Email')
+                    ->value($this->employee->email)
+                    ->horizontal()
+                    ->required(),
 
                 Input::make('employee.phone_number')
-                ->title('Telefono')
-                ->value($this->employee->phone_number)
-                ->horizontal()
-                ->required(),
+                    ->title('Telefono')
+                    ->value($this->employee->phone_number)
+                    ->horizontal()
+                    ->required(),
 
                 Button::make('Aggiorna')
-                ->method('update')
-                ->icon('bs.check-circle')
-                ->class('btn btn-primary gap-2'),
+                    ->method('updateEmployee')
+                    ->icon('bs.check-circle')
+                    ->class('btn btn-primary gap-2'),
             ]),
         ];
     }
 
-    public function update()
+    public function updateEmployee()
     {
         $this->employee->update(request()->get('employee'));
 
         Toast::info('Dipendente aggiornato con successo!');
 
-        return redirect()->route('platform.employee.table');
+        return redirect()->route('platform.employee.show', $this->employee->id);
     }
 }

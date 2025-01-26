@@ -28,7 +28,7 @@ class CompanyShowScreen extends Screen
                         ->get();
         return [
             'company' => $company,
-            'employees' => $company->employees
+            'employees' => $company->employees->sortBy('id')
         ];
     }
 
@@ -56,7 +56,7 @@ class CompanyShowScreen extends Screen
             ->class('btn gap-2 rounded-1'),
 
             Link::make()
-                //->route('platform.employee.edit, $employee->id')
+                ->route('platform.company.edit', $this->company->id)
                 ->icon('bs.pencil')
                 ->class('btn p-2 rounded-1'),
 
