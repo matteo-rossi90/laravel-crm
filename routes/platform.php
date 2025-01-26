@@ -23,6 +23,7 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\Statistics\StatisticsShowScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -122,4 +123,6 @@ Route::screen('/dipendenti', EmployeeTableScreen::class)->name('platform.employe
 Route::screen('/dipendenti/aggiungi', EmployeeFormScreen::class)->name('platform.employee.create');
 Route::screen('/dipendenti/{employee}', EmployeeShowScreen::class)->name('platform.employee.show');
 Route::screen('/dipendenti/{employee}/modifica', EmployeeEditScreen::class)->name('platform.employee.edit');
+
+Route::screen('/statistiche', StatisticsShowScreen::class)->name('platform.statistics');
 

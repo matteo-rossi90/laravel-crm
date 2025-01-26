@@ -74,6 +74,10 @@ class PlatformProvider extends OrchidServiceProvider
             ->icon('bs.people')
             ->route('platform.employee.table'),
 
+            Menu::make('Statistiche')
+            ->icon('bs.graph-up-arrow')
+            ->route('platform.statistics'),
+
             // Menu::make(__('Utenti'))
                 // ->icon('bs.people')
                 // ->route('platform.systems.users')

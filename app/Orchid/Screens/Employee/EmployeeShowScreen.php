@@ -47,21 +47,21 @@ class EmployeeShowScreen extends Screen
     {
         return [
             Link::make('Indietro')
-            ->route('platform.employee.table')
-            ->icon('bs.arrow-left-circle')
-            ->class('btn gap-2 rounded-1'),
+                ->route('platform.employee.table')
+                ->icon('bs.arrow-left-circle')
+                ->class('btn gap-2 rounded-1'),
 
             Link::make()
-            ->route('platform.employee.edit', $this->employee->id)
-            ->icon('bs.pencil')
-            ->class('btn p-2 rounded-1'),
+                ->route('platform.employee.edit', $this->employee->id)
+                ->icon('bs.pencil')
+                ->class('btn p-2 rounded-1'),
 
             Button::make()
-            ->icon('bs.trash3')
-            ->class('btn p-2 rounded-1 text-danger')
-            ->confirm(__('Una volta cancellato il dipendente, non sarà possibile recuperarlo. Sei sicuro di eliminarlo?.'))
-            ->method('remove', [
-                'id' => $this->employee->id,
+                ->icon('bs.trash3')
+                ->class('btn p-2 rounded-1 text-danger')
+                ->confirm(__('Una volta cancellato il dipendente, non sarà possibile recuperarlo. Sei sicuro di eliminarlo?.'))
+                ->method('remove', [
+                    'id' => $this->employee->id,
             ])
         ];
     }
