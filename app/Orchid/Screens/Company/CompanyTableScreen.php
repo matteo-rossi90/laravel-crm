@@ -71,7 +71,7 @@ class CompanyTableScreen extends Screen
                     }
 
                     return $logoPath
-                    ? "<img src='" . asset($logoPath) . "' alt='Logo' style='width: 50px; height: 50px; object-fit: cover; border-radius: 5px;'>"
+                    ? "<img src='" . asset($logoPath) . "' alt='Logo' style='width: 50px; height: 50px; object-fit: cover; border-radius: 100%;'>"
                     : '<span>Nessun logo</span>';
                 }),
                 TD::make('name', 'Nome')->sort(),
